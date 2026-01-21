@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -25,6 +26,9 @@ public class Pedido {
 
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedido> itens;
 
     private BigDecimal subtotalProdutos;
     private BigDecimal taxaEntrega;
@@ -119,5 +123,13 @@ public class Pedido {
 
     public void setDataHora(LocalDateTime dataHora) {
         this.dataCriacao = dataHora;
+    }
+
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
     }
 }

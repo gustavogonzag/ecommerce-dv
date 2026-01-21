@@ -9,6 +9,8 @@ import com.gustavo.ecommerce.repository.ProdutoRepository;
 import com.gustavo.ecommerce.service.ProdutoService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProdutoServiceImpl implements ProdutoService {
 
@@ -43,5 +45,10 @@ public class ProdutoServiceImpl implements ProdutoService {
                 produto.getPreco(),
                 categoria.getNome()
         );
+    }
+
+    @Override
+    public List<ProdutoResponseDTO> listar() {
+        return List.of();
     }
 }

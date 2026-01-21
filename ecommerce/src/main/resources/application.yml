@@ -3,6 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3306/delivery
     username: root
     password: 6842
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: validate

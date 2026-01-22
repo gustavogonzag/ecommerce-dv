@@ -9,17 +9,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/categorias")
 public class CategoriaController {
 
     @Autowired
     private CategoriaService service;
 
-    @GetMapping("/categorias")
+    @GetMapping
     public ResponseEntity<List<CategoriaRequestDTO>> findAll(){
         return ResponseEntity.ok(service.listarCategorias());
     }
 
-    @PostMapping("/categorias")
+    @PostMapping
     public ResponseEntity<CategoriaRequestDTO> cadastrarCategoria(@RequestBody CategoriaRequestDTO dto){
         CategoriaRequestDTO res = service.criarCategoria(dto);
         if(res != null){
@@ -28,7 +29,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/categorias/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CategoriaRequestDTO> atualizarCategoria(@PathVariable int id, @RequestBody CategoriaRequestDTO dto){
         dto.setId(id);
         CategoriaRequestDTO res = service.atualizarCategoria(dto);
@@ -38,7 +39,7 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/categorias/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deletarCategoria(@PathVariable int id){
         service.apagarCategoria(id);
         return ResponseEntity.ok().body("Removed!");

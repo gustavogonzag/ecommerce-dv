@@ -11,6 +11,7 @@ import com.gustavo.ecommerce.service.ProdutoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoServiceImpl implements ProdutoService {
@@ -74,7 +75,22 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<ProdutoResponseDTO> listar() {
-        return List.of();
+    public List<ProdutoRequestDTO> listar() {
+        return produtoRepository.findAll()
+                .stream()
+                .map(produto -> {
+                    ProdutoRequestDTO res = new ProdutoRequestDTO();
+                    res.setId(produto.getId());
+                    res.setNome(produto.getNome());
+                    res.setDescricao(produto.getDescricao());
+                    res.setPreco(produto.getPreco());
+                    res.setAtivo(produto.getAtivo());
+                    res.setCategoriaId(produto.getCategoria().getId());
+                    return res;
+                })
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public void apagarProduto(Integer id){ produtoRepository.deleteById(id); }
 }

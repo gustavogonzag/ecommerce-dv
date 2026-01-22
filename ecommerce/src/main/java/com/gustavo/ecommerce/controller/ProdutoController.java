@@ -40,8 +40,16 @@ public class ProdutoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProdutoResponseDTO>> findAll(){
+    public ResponseEntity<List<ProdutoRequestDTO>> findAll(){
         return ResponseEntity.ok(produtoService.listar());
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deletar(@Valid @PathVariable Integer id) {
+        produtoService.apagarProduto(id);
+        return ResponseEntity.ok().body("Removed!");
+    }
+
+
 }
 

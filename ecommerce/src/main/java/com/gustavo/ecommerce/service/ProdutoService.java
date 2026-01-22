@@ -9,5 +9,6 @@ public interface ProdutoService {
 
     ProdutoRequestDTO criar(ProdutoRequestDTO dto);
     ProdutoRequestDTO atualizarProduto(ProdutoRequestDTO dto);
-    List<ProdutoResponseDTO> listar();
+    List<ProdutoRequestDTO> listar();
+    public void apagarProduto(Integer id);
 }

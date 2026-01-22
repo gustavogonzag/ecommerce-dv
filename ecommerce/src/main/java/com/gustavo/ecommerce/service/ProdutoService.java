@@ -10,5 +10,5 @@ public interface ProdutoService {
     ProdutoRequestDTO criar(ProdutoRequestDTO dto);
     ProdutoRequestDTO atualizarProduto(ProdutoRequestDTO dto);
     List<ProdutoRequestDTO> listar();
-    public void apagarProduto(Integer id);
+    void apagarProduto(Integer id);
 }

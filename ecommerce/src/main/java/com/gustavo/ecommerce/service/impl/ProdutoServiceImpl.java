@@ -1,8 +1,6 @@
 package com.gustavo.ecommerce.service.impl;
 
-import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
 import com.gustavo.ecommerce.dto.request.ProdutoRequestDTO;
-import com.gustavo.ecommerce.dto.response.ProdutoResponseDTO;
 import com.gustavo.ecommerce.entity.Categoria;
 import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.repository.CategoriaRepository;

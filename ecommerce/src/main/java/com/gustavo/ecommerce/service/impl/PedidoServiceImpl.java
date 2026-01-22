@@ -72,4 +72,10 @@ public class PedidoServiceImpl implements PedidoService {
 
         return null;
     }
+
+    @Override
+    public PedidoResponseDTO atualizarPedido(PedidoRequestDTO dto) {
+
+        return null;
+    }
 }

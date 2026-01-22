@@ -1,10 +1,12 @@
 package com.gustavo.ecommerce.dto.request;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ProdutoRequestDTO {
+
+    private Integer id;
 
     @NotBlank
     private String nome;
@@ -15,7 +17,20 @@ public class ProdutoRequestDTO {
     private BigDecimal preco;
 
     @NotNull
-    private int categoriaId;
+    private Integer categoriaId;
+
+    private boolean ativo;
+
+    public ProdutoRequestDTO() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -41,11 +56,19 @@ public class ProdutoRequestDTO {
         this.preco = preco;
     }
 
-    public int getCategoriaId() {
+    public Integer getCategoriaId() {
         return categoriaId;
     }
 
-    public void setCategoriaId(int categoriaId) {
+    public void setCategoriaId(Integer categoriaId) {
         this.categoriaId = categoriaId;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

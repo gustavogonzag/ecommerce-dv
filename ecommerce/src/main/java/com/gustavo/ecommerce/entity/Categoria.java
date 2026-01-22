@@ -13,7 +13,7 @@ public class Categoria {
     @Column(nullable = false, length = 100)
     private String nome;
 
-    protected Categoria() {}
+    public Categoria() {}
 
     public Categoria(String nome) {
         this.nome = nome;
@@ -21,6 +21,10 @@ public class Categoria {
 
     public int getId() {
         return id;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getNome() {

@@ -1,5 +1,6 @@
 package com.gustavo.ecommerce.service.impl;
 
+import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
 import com.gustavo.ecommerce.dto.request.ProdutoRequestDTO;
 import com.gustavo.ecommerce.dto.response.ProdutoResponseDTO;
 import com.gustavo.ecommerce.entity.Categoria;
@@ -24,27 +25,52 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public ProdutoResponseDTO criar(ProdutoRequestDTO dto) {
+    public ProdutoRequestDTO criar(ProdutoRequestDTO dto) {
 
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
-        Produto produto = new Produto(
-                dto.getNome(),
-                dto.getDescricao(),
-                dto.getPreco(),
-                categoria
-        );
+        Produto produto = new Produto();
+        produto.setNome(dto.getNome());
+        produto.setDescricao(dto.getDescricao());
+        produto.setCategoria(categoria);
+        produto.setPreco(dto.getPreco());
+        produto.setAtivo(dto.isAtivo());
 
-        produtoRepository.save(produto);
+        Produto salvo = produtoRepository.save(produto);
 
-        return new ProdutoResponseDTO(
-                produto.getId(),
-                produto.getNome(),
-                produto.getDescricao(),
-                produto.getPreco(),
-                categoria.getNome()
-        );
+        ProdutoRequestDTO response = new ProdutoRequestDTO();
+        response.setId(salvo.getId());
+        response.setNome(salvo.getNome());
+        response.setDescricao(salvo.getDescricao());
+        response.setPreco(salvo.getPreco());
+        response.setAtivo(salvo.getAtivo());
+        response.setCategoriaId(salvo.getCategoria().getId());
+
+        return response;
+    }
+
+    @Override
+    public ProdutoRequestDTO atualizarProduto(ProdutoRequestDTO dto) {
+
+        Produto produto = produtoRepository.findById(dto.getId())
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
+        produto.setNome(dto.getNome());
+        produto.setDescricao(dto.getDescricao());
+        produto.setPreco(dto.getPreco());
+        produto.setAtivo(dto.isAtivo());
+
+        Produto atualizado = produtoRepository.save(produto);
+
+        ProdutoRequestDTO response = new ProdutoRequestDTO();
+        response.setId(atualizado.getId());
+        response.setNome(atualizado.getNome());
+        response.setDescricao(atualizado.getDescricao());
+        response.setPreco(atualizado.getPreco());
+        response.setAtivo(dto.isAtivo());
+
+        return response;
     }
 
     @Override

@@ -1,0 +1,47 @@
+package com.gustavo.ecommerce.controller;
+
+import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
+import com.gustavo.ecommerce.service.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class CategoriaController {
+
+    @Autowired
+    private CategoriaService service;
+
+    @GetMapping("/categorias")
+    public ResponseEntity<List<CategoriaRequestDTO>> findAll(){
+        return ResponseEntity.ok(service.listarCategorias());
+    }
+
+    @PostMapping("/categorias")
+    public ResponseEntity<CategoriaRequestDTO> cadastrarCategoria(@RequestBody CategoriaRequestDTO dto){
+        CategoriaRequestDTO res = service.criarCategoria(dto);
+        if(res != null){
+            return ResponseEntity.status(201).body(res);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/categorias/{id}")
+    public ResponseEntity<CategoriaRequestDTO> atualizarCategoria(@PathVariable int id, @RequestBody CategoriaRequestDTO dto){
+        dto.setId(id);
+        CategoriaRequestDTO res = service.atualizarCategoria(dto);
+        if(res != null) {
+            return ResponseEntity.status(200).body(res);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/categorias/{id}")
+    public ResponseEntity<?> deletarCategoria(@PathVariable int id){
+        service.apagarCategoria(id);
+        return ResponseEntity.ok().body("Removed!");
+    }
+
+}

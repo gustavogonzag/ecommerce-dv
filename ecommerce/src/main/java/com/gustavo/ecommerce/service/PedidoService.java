@@ -6,4 +6,5 @@ import com.gustavo.ecommerce.dto.response.PedidoResponseDTO;
 public interface PedidoService {
 
     PedidoResponseDTO criarPedido(PedidoRequestDTO dto);
+    PedidoResponseDTO atualizarPedido(PedidoRequestDTO dto);
 }

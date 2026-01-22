@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ProdutoService {
 
-    ProdutoResponseDTO criar(ProdutoRequestDTO dto);
+    ProdutoRequestDTO criar(ProdutoRequestDTO dto);
+    ProdutoRequestDTO atualizarProduto(ProdutoRequestDTO dto);
     List<ProdutoResponseDTO> listar();
 }

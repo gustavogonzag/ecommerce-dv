@@ -85,12 +85,20 @@ public class Pedido {
         this.status = status;
     }
 
-    public BigDecimal getSubtotal() {
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
+    public BigDecimal getSubtotalProdutos() {
         return subtotalProdutos;
     }
 
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotalProdutos = subtotal;
+    public void setSubtotalProdutos(BigDecimal subtotalProdutos) {
+        this.subtotalProdutos = subtotalProdutos;
     }
 
     public BigDecimal getTaxaEntrega() {
@@ -101,12 +109,12 @@ public class Pedido {
         this.taxaEntrega = taxaEntrega;
     }
 
-    public BigDecimal getDesconto() {
+    public BigDecimal getValorDesconto() {
         return valorDesconto;
     }
 
-    public void setDesconto(BigDecimal desconto) {
-        this.valorDesconto = desconto;
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
     }
 
     public BigDecimal getTotal() {
@@ -117,19 +125,11 @@ public class Pedido {
         this.total = total;
     }
 
-    public LocalDateTime getDataHora() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataHora(LocalDateTime dataHora) {
-        this.dataCriacao = dataHora;
-    }
-
-    public List<ItemPedido> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemPedido> itens) {
-        this.itens = itens;
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 }

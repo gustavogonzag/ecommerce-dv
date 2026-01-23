@@ -10,8 +10,8 @@ import java.util.Optional;
 public interface PedidoService {
 
     Pedido criarPedido(PedidoRequestDTO dto);
-    Pedido atualizarPedido(PedidoRequestDTO dto);
+    Pedido atualizarPedido(PedidoRequestDTO dto); //Falta concluir
     List<Pedido> listarPedidos();
-    List<Pedido> listarPedidosByStatus(String status);
+    List<Pedido> listarPedidosByStatus(String status); // Falta Concluir
     Pedido buscarPedidoPorId(Integer id);
 }

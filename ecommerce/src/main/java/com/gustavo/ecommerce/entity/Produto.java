@@ -29,13 +29,6 @@ public class Produto {
 
     public Produto() {}
 
-    public Produto(String nome, String descricao, BigDecimal preco, Categoria categoria) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.categoria = categoria;
-    }
-
     public Integer getId() {
         return id;
     }

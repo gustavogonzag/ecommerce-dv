@@ -1,7 +1,6 @@
 package com.gustavo.ecommerce.controller;
 
 import com.gustavo.ecommerce.dto.request.ProdutoRequestDTO;
-import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

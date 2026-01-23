@@ -16,10 +16,6 @@ public class Categoria extends CategoriaRequestDTO {
 
     public Categoria() {}
 
-    public Categoria(String nome) {
-        this.nome = nome;
-    }
-
     public Integer getId() {
         return id;
     }

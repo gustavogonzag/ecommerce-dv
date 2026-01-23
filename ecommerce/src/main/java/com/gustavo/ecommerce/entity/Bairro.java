@@ -9,7 +9,7 @@ public class Bairro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false, length = 100)
     private String nome;
@@ -17,7 +17,7 @@ public class Bairro {
     @Column(name = "taxa_entrega", nullable = false)
     private BigDecimal taxaEntrega;
 
-    protected Bairro() {
+    public Bairro() {
     }
 
     public Bairro(String nome, BigDecimal taxaEntrega) {
@@ -25,15 +25,27 @@ public class Bairro {
         this.taxaEntrega = taxaEntrega;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
         return nome;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public BigDecimal getTaxaEntrega() {
         return taxaEntrega;
+    }
+
+    public void setTaxaEntrega(BigDecimal taxaEntrega) {
+        this.taxaEntrega = taxaEntrega;
     }
 }

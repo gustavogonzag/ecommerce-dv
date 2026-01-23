@@ -1,7 +1,6 @@
 package com.gustavo.ecommerce.service;
 
 import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
-import com.gustavo.ecommerce.entity.Categoria;
 
 import java.util.List;
 

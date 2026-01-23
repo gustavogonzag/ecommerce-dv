@@ -1,5 +1,7 @@
 package com.gustavo.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gustavo.ecommerce.entity.enums.FormaPagamento;
 import com.gustavo.ecommerce.entity.enums.StatusPedido;
 import jakarta.persistence.*;
 
@@ -25,10 +27,16 @@ public class Pedido {
     private Bairro bairro;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StatusPedido status;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<ItemPedido> itens;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "forma_pagamento", nullable = false, length = 20)
+    private FormaPagamento formaPagamento;
 
     private BigDecimal subtotalProdutos;
     private BigDecimal taxaEntrega;
@@ -139,5 +147,21 @@ public class Pedido {
 
     public BigDecimal getSubtotal() {
         return subtotalProdutos;
+    }
+
+    public FormaPagamento getFormaPagamento(String formaPagamento) {
+        return this.formaPagamento;
+    }
+
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 }

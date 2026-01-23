@@ -12,14 +12,12 @@ import com.gustavo.ecommerce.repository.PedidoRepository;
 import com.gustavo.ecommerce.repository.ProdutoRepository;
 import com.gustavo.ecommerce.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,6 +52,7 @@ public class PedidoServiceImpl implements PedidoService {
         // 🔹 Status inicial
         pedido.setStatus(StatusPedido.AGUARDANDO);
         pedido.setDataHora(LocalDateTime.now());
+        pedido.setFormaPagamento(dto.getFormaPagamento());
 
         BigDecimal subtotalPedido = BigDecimal.ZERO;
         List<ItemPedido> itens = new ArrayList<>();
@@ -87,8 +86,13 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public Pedido atualizarPedido(PedidoRequestDTO dto) {
-        Pedido pedido = new Pedido();
+    public Pedido atualizarStatusPedido(Integer id, StatusPedido novoStatus) {
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+
+        // 🔥 aqui você altera SOMENTE o status
+        pedido.setStatus(novoStatus);
+
         return pedidoRepository.save(pedido);
     }
 

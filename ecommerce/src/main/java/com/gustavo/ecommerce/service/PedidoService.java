@@ -2,15 +2,14 @@ package com.gustavo.ecommerce.service;
 
 import com.gustavo.ecommerce.dto.request.PedidoRequestDTO;
 import com.gustavo.ecommerce.entity.Pedido;
-import org.springframework.http.ResponseEntity;
+import com.gustavo.ecommerce.entity.enums.StatusPedido;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PedidoService {
 
     Pedido criarPedido(PedidoRequestDTO dto);
-    Pedido atualizarPedido(PedidoRequestDTO dto); //Falta concluir
+    Pedido atualizarStatusPedido(Integer id, StatusPedido novoStatus); //Falta concluir
     List<Pedido> listarPedidos();
     List<Pedido> listarPedidosByStatus(String status); // Falta Concluir
     Pedido buscarPedidoPorId(Integer id);

@@ -1,5 +1,6 @@
 package com.gustavo.ecommerce.controller;
 
+import com.gustavo.ecommerce.dto.request.AtualizarStatusPedidoDTO;
 import com.gustavo.ecommerce.dto.request.PedidoRequestDTO;
 import com.gustavo.ecommerce.entity.Pedido;
 import com.gustavo.ecommerce.service.PedidoService;
@@ -33,6 +34,17 @@ public class PedidoController {
     public ResponseEntity<Pedido> buscarPorId(@PathVariable Integer id) {
         Pedido pedido = pedidoService.buscarPedidoPorId(id);
         return ResponseEntity.ok(pedido);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Pedido> atualizarStatus(
+            @PathVariable Integer id,
+            @RequestBody @Valid AtualizarStatusPedidoDTO dto) {
+
+        System.out.println("Statys recebido: " + dto);
+        Pedido pedidoAtualizado = pedidoService.atualizarStatusPedido(id, dto.getStatusPedido());
+
+        return ResponseEntity.ok(pedidoAtualizado);
     }
 
 }

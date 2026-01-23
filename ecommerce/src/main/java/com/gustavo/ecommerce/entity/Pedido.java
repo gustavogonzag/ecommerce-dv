@@ -134,9 +134,11 @@ public class Pedido {
     }
 
     public void setDataHora(LocalDateTime now) {
+        this.dataCriacao = now;
     }
 
     public void setSubtotal(BigDecimal subtotalPedido) {
+        this.subtotalProdutos = subtotalPedido;
     }
 
     public LocalDateTime getDataHora() {

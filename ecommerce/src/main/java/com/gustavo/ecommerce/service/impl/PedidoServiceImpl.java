@@ -21,15 +21,11 @@ import java.util.List;
 @Service
 public class PedidoServiceImpl implements PedidoService {
 
-    private final BairroRepository bairroRepository;
-    private final PedidoRepository pedidoRepository;
     private final ProdutoRepository produtoRepository;
 
     public PedidoServiceImpl(BairroRepository bairroRepository,
                              PedidoRepository pedidoRepository,
                              ProdutoRepository produtoRepository) {
-        this.bairroRepository = bairroRepository;
-        this.pedidoRepository = pedidoRepository;
         this.produtoRepository = produtoRepository;
     }
 

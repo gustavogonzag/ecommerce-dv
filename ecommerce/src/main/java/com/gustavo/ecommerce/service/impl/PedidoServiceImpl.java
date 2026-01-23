@@ -2,7 +2,6 @@ package com.gustavo.ecommerce.service.impl;
 
 import com.gustavo.ecommerce.dto.request.ItemPedidoRequestDTO;
 import com.gustavo.ecommerce.dto.request.PedidoRequestDTO;
-import com.gustavo.ecommerce.dto.response.PedidoResponseDTO;
 import com.gustavo.ecommerce.entity.ItemPedido;
 import com.gustavo.ecommerce.entity.Pedido;
 import com.gustavo.ecommerce.entity.Produto;
@@ -35,7 +34,7 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoResponseDTO criarPedido(PedidoRequestDTO dto) {
+    public PedidoRequestDTO criarPedido(PedidoRequestDTO dto) {
 
         Pedido pedido = new Pedido();
         pedido.setStatus(StatusPedido.ACEITO);
@@ -74,7 +73,7 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public PedidoResponseDTO atualizarPedido(PedidoRequestDTO dto) {
+    public PedidoRequestDTO atualizarPedido(PedidoRequestDTO dto) {
 
         return null;
     }

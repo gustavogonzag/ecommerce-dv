@@ -2,26 +2,32 @@ package com.gustavo.ecommerce.service.impl;
 
 import com.gustavo.ecommerce.dto.request.ItemPedidoRequestDTO;
 import com.gustavo.ecommerce.dto.request.PedidoRequestDTO;
+import com.gustavo.ecommerce.dto.response.PageResponseDTO;
+import com.gustavo.ecommerce.dto.response.PedidoResponseDTO;
 import com.gustavo.ecommerce.entity.Bairro;
 import com.gustavo.ecommerce.entity.ItemPedido;
 import com.gustavo.ecommerce.entity.Pedido;
 import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.entity.enums.StatusPedido;
+import com.gustavo.ecommerce.mapper.PedidoMapper;
 import com.gustavo.ecommerce.repository.BairroRepository;
 import com.gustavo.ecommerce.repository.PedidoRepository;
 import com.gustavo.ecommerce.repository.ProdutoRepository;
 import com.gustavo.ecommerce.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static com.gustavo.ecommerce.repository.specification.PedidoSpecification.*;
 
 @Service
 public class PedidoServiceImpl implements PedidoService {
@@ -34,6 +40,9 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private PedidoMapper pedidoMapper;
 
     @Override
     public Pedido criarPedido(PedidoRequestDTO dto) {
@@ -99,32 +108,6 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<Pedido> listarPedidos() {
-        return pedidoRepository.findAll()
-                .stream()
-                .map( pedido -> {
-                    Pedido res = new Pedido();
-                    res.setId(pedido.getId());
-                    res.setNomeCliente(pedido.getNomeCliente());
-                    res.setTelefone(pedido.getTelefone());
-                    res.setEndereco(pedido.getEndereco());
-                    res.setBairro(pedido.getBairro());
-                    res.setStatus(pedido.getStatus());
-                    res.setDataHora(pedido.getDataHora());
-                    res.setSubtotal(pedido.getSubtotal());
-                    res.setTotal(pedido.getTotal());
-                    res.setItens(pedido.getItens());
-                    return res;
-                })
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Pedido> findByStatusOrderByDataCriacaoDesc(StatusPedido status) {
-        return pedidoRepository.findByStatusOrderByDataCriacaoDesc(status);
-    }
-
-    @Override
     public Pedido buscarPedidoPorId(Integer id) {
 
         return pedidoRepository.findById(id)
@@ -132,24 +115,50 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<Pedido> buscarPedidosPorData(LocalDate data) {
+    public Page<Pedido> listarComFiltros(
+            StatusPedido status,
+            LocalDate dataInicio,
+            LocalDate dataFim,
+            Pageable pageable) {
 
-        LocalDateTime inicio = data.atStartOfDay();
-        LocalDateTime fim = data.atTime(LocalTime.MAX);
-
-        return pedidoRepository
-                .findByDataCriacaoBetweenOrderByDataCriacaoDesc(inicio, fim);
+        return pedidoRepository.findAll(
+                Specification
+                        .where(comStatus(status))
+                        .and(dataInicio(dataInicio))
+                        .and(dataFim(dataFim)),
+                pageable
+        );
     }
 
     @Override
-    public List<Pedido> buscarPorStatusEData(StatusPedido status, LocalDate data) {
-        LocalDateTime inicio = data.atStartOfDay();
-        LocalDateTime fim = data.atTime(LocalTime.MAX);
+    public Page<Pedido> listarUltimosPedidos(Pageable pageable) {
+        return pedidoRepository.findAllByOrderByDataCriacaoDesc(pageable);
+    }
 
-        return pedidoRepository
-                .findByStatusAndDataCriacaoBetweenOrderByDataCriacaoDesc(
-                        status, inicio, fim
-                );
+    @Override
+    public List<Pedido> listarPedidosAtrasados(int minutos) {
+        LocalDateTime limite = LocalDateTime.now().minusMinutes(minutos);
+        return pedidoRepository.findPedidosAtrasados(limite);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponseDTO<PedidoResponseDTO> listarPedidosPaginados(
+            StatusPedido status,
+            LocalDate dataInicio,
+            LocalDate dataFim,
+            Pageable pageable
+    ) {
+
+        Page<Pedido> page = pedidoRepository.findAll(
+                Specification
+                        .where(comStatus(status))
+                        .and(dataInicio(dataInicio))
+                        .and(dataFim(dataFim)),
+                pageable
+        );
+
+        return pedidoMapper.toPageResponse(page);
     }
 
 }

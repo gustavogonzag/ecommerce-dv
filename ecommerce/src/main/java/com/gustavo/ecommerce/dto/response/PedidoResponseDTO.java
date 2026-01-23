@@ -1,49 +1,32 @@
-package com.gustavo.ecommerce.entity;
+package com.gustavo.ecommerce.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gustavo.ecommerce.entity.enums.FormaPagamento;
 import com.gustavo.ecommerce.entity.enums.StatusPedido;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "pedidos")
-public class Pedido {
+public class PedidoResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    // Dados do cliente
     private String nomeCliente;
     private String telefone;
     private String endereco;
 
-    @ManyToOne
-    @JoinColumn(name = "bairro_id")
-    private Bairro bairro;
+    private Integer bairroId;
+    private String bairroNome;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private StatusPedido status;
-
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private List<ItemPedido> itens;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "forma_pagamento", nullable = false, length = 20)
     private FormaPagamento formaPagamento;
 
     private BigDecimal subtotalProdutos;
     private BigDecimal taxaEntrega;
-    private BigDecimal valorDesconto;
     private BigDecimal total;
 
     private LocalDateTime dataCriacao;
+
+    private List<ItemPedidoResponseDTO> itens;
 
     public Integer getId() {
         return id;
@@ -77,12 +60,20 @@ public class Pedido {
         this.endereco = endereco;
     }
 
-    public Bairro getBairro() {
-        return bairro;
+    public Integer getBairroId() {
+        return bairroId;
     }
 
-    public void setBairro(Bairro bairro) {
-        this.bairro = bairro;
+    public void setBairroId(Integer bairroId) {
+        this.bairroId = bairroId;
+    }
+
+    public String getBairroNome() {
+        return bairroNome;
+    }
+
+    public void setBairroNome(String bairroNome) {
+        this.bairroNome = bairroNome;
     }
 
     public StatusPedido getStatus() {
@@ -93,12 +84,12 @@ public class Pedido {
         this.status = status;
     }
 
-    public List<ItemPedido> getItens() {
-        return itens;
+    public FormaPagamento getFormaPagamento() {
+        return formaPagamento;
     }
 
-    public void setItens(List<ItemPedido> itens) {
-        this.itens = itens;
+    public void setFormaPagamento(FormaPagamento formaPagamento) {
+        this.formaPagamento = formaPagamento;
     }
 
     public BigDecimal getSubtotalProdutos() {
@@ -117,14 +108,6 @@ public class Pedido {
         this.taxaEntrega = taxaEntrega;
     }
 
-    public BigDecimal getValorDesconto() {
-        return valorDesconto;
-    }
-
-    public void setValorDesconto(BigDecimal valorDesconto) {
-        this.valorDesconto = valorDesconto;
-    }
-
     public BigDecimal getTotal() {
         return total;
     }
@@ -133,35 +116,19 @@ public class Pedido {
         this.total = total;
     }
 
-    public void setDataHora(LocalDateTime now) {
-        this.dataCriacao = now;
-    }
-
-    public void setSubtotal(BigDecimal subtotalPedido) {
-        this.subtotalProdutos = subtotalPedido;
-    }
-
-    public LocalDateTime getDataHora() {
-        return dataCriacao;
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotalProdutos;
-    }
-
-    public FormaPagamento getFormaPagamento() {
-        return this.formaPagamento;
-    }
-
-    public void setFormaPagamento(FormaPagamento formaPagamento) {
-        this.formaPagamento = formaPagamento;
-    }
-
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
+    }
+
+    public List<ItemPedidoResponseDTO> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedidoResponseDTO> itens) {
+        this.itens = itens;
     }
 }

@@ -125,14 +125,6 @@ public class Pedido {
         this.total = total;
     }
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
-
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
-
     public void setDataHora(LocalDateTime now) {
         this.dataCriacao = now;
     }

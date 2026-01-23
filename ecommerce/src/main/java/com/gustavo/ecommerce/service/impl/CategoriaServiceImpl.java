@@ -71,8 +71,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public CategoriaRequestDTO buscarCategoriaPorId(Integer id) {
+
         Categoria categoria = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
         CategoriaRequestDTO dto = new CategoriaRequestDTO();
         dto.setId(categoria.getId());
@@ -81,3 +82,4 @@ public class CategoriaServiceImpl implements CategoriaService {
         return dto;
     }
 }
+

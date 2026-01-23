@@ -15,8 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -126,6 +129,16 @@ public class PedidoServiceImpl implements PedidoService {
 
         return pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+    }
+
+    @Override
+    public List<Pedido> buscarPedidosPorData(LocalDate data) {
+
+        LocalDateTime inicio = data.atStartOfDay();
+        LocalDateTime fim = data.atTime(LocalTime.MAX);
+
+        return pedidoRepository
+                .findByDataCriacaoBetweenOrderByDataCriacaoDesc(inicio, fim);
     }
 
 }

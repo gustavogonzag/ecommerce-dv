@@ -132,4 +132,18 @@ public class Pedido {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    public void setDataHora(LocalDateTime now) {
+    }
+
+    public void setSubtotal(BigDecimal subtotalPedido) {
+    }
+
+    public LocalDateTime getDataHora() {
+        return dataCriacao;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotalProdutos;
+    }
 }

@@ -5,8 +5,8 @@ import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
 import java.util.List;
 
 public interface CategoriaService {
-    public CategoriaRequestDTO criarCategoria(CategoriaRequestDTO categoriaNova);
-    public CategoriaRequestDTO atualizarCategoria(CategoriaRequestDTO categoria);
-    public List<CategoriaRequestDTO> listarCategorias();
-    public void apagarCategoria(Integer id);
+    CategoriaRequestDTO criarCategoria(CategoriaRequestDTO categoriaNova);
+    CategoriaRequestDTO atualizarCategoria(CategoriaRequestDTO categoria);
+    List<CategoriaRequestDTO> listarCategorias();
+    void apagarCategoria(Integer id);
 }

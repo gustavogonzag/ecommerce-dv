@@ -20,11 +20,6 @@ public class Bairro {
     public Bairro() {
     }
 
-    public Bairro(String nome, BigDecimal taxaEntrega) {
-        this.nome = nome;
-        this.taxaEntrega = taxaEntrega;
-    }
-
     public Integer getId() {
         return id;
     }

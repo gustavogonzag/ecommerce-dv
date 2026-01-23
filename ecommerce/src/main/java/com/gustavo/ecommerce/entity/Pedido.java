@@ -57,10 +57,6 @@ public class Pedido {
         this.subtotalProdutos = subtotalPedido;
     }
 
-    public LocalDateTime getDataHora() {
-        return dataCriacao;
-    }
-
     public BigDecimal getSubtotal() {
         return subtotalProdutos;
     }

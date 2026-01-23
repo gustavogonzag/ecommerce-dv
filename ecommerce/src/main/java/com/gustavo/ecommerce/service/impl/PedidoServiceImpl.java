@@ -37,19 +37,19 @@ public class PedidoServiceImpl implements PedidoService {
 
         Pedido pedido = new Pedido();
 
-        // 🔹 Dados do cliente
+        // Dados do cliente
         pedido.setNomeCliente(dto.getNomeCliente());
         pedido.setTelefone(dto.getTelefone());
         pedido.setEndereco(dto.getEndereco());
 
-        // 🔹 Bairro
+        // Bairro
         Bairro bairro = bairroRepository.findById(dto.getBairroId())
                 .orElseThrow(() -> new RuntimeException("Bairro não encontrado"));
 
         pedido.setBairro(bairro);
         pedido.setTaxaEntrega(bairro.getTaxaEntrega());
 
-        // 🔹 Status inicial
+        // Status inicial
         pedido.setStatus(StatusPedido.AGUARDANDO);
         pedido.setDataHora(LocalDateTime.now());
         pedido.setFormaPagamento(dto.getFormaPagamento());
@@ -57,7 +57,7 @@ public class PedidoServiceImpl implements PedidoService {
         BigDecimal subtotalPedido = BigDecimal.ZERO;
         List<ItemPedido> itens = new ArrayList<>();
 
-        // 🔹 Itens do pedido
+        // Itens do pedido
         for (ItemPedidoRequestDTO itemDTO : dto.getItens()) {
 
             Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
@@ -90,7 +90,6 @@ public class PedidoServiceImpl implements PedidoService {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
 
-        // 🔥 aqui você altera SOMENTE o status
         pedido.setStatus(novoStatus);
 
         return pedidoRepository.save(pedido);

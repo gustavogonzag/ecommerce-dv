@@ -3,7 +3,6 @@ package com.gustavo.ecommerce.controller;
 import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
 import com.gustavo.ecommerce.service.CategoriaService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

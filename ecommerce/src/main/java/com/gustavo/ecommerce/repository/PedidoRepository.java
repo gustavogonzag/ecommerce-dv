@@ -8,8 +8,16 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
+
     List<Pedido> findByStatusOrderByDataCriacaoDesc(StatusPedido status);
+
     List<Pedido> findByDataCriacaoBetweenOrderByDataCriacaoDesc(
+            LocalDateTime inicio,
+            LocalDateTime fim
+    );
+
+    List<Pedido> findByStatusAndDataCriacaoBetweenOrderByDataCriacaoDesc(
+            StatusPedido status,
             LocalDateTime inicio,
             LocalDateTime fim
     );

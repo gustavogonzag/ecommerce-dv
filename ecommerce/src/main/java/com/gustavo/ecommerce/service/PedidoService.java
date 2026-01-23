@@ -15,4 +15,5 @@ public interface PedidoService {
     List<Pedido> findByStatusOrderByDataCriacaoDesc(StatusPedido status);
     List<Pedido> buscarPedidosPorData(LocalDate data);
     Pedido buscarPedidoPorId(Integer id);
+    List<Pedido> buscarPorStatusEData(StatusPedido status, LocalDate data);
 }

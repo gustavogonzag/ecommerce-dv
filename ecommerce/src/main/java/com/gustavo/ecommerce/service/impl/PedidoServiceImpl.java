@@ -141,4 +141,15 @@ public class PedidoServiceImpl implements PedidoService {
                 .findByDataCriacaoBetweenOrderByDataCriacaoDesc(inicio, fim);
     }
 
+    @Override
+    public List<Pedido> buscarPorStatusEData(StatusPedido status, LocalDate data) {
+        LocalDateTime inicio = data.atStartOfDay();
+        LocalDateTime fim = data.atTime(LocalTime.MAX);
+
+        return pedidoRepository
+                .findByStatusAndDataCriacaoBetweenOrderByDataCriacaoDesc(
+                        status, inicio, fim
+                );
+    }
+
 }

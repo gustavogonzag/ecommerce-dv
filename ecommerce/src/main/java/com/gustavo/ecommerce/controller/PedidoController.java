@@ -66,5 +66,18 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.buscarPedidosPorData(data));
     }
 
+    @GetMapping("/filtro")
+    public ResponseEntity<List<Pedido>> buscarPorStatusEData(
+            @RequestParam StatusPedido status,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate data
+    ) {
+        return ResponseEntity.ok(
+                pedidoService.buscarPorStatusEData(status, data)
+        );
+    }
+
 }
 

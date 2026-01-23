@@ -2,11 +2,12 @@ package com.gustavo.ecommerce.entity.enums;
 
 public enum StatusPedido {
 
-    ACEITO(1, "Aceito"),
-    EM_PREPARO(2, "Em preparo"),
-    SAIU_PARA_ENTREGA(3, "Saiu para entrega"),
-    ENTREGUE(4, "Entregue"),
-    CANCELADO(5, "Cancelado");
+    AGUARDANDO(1, "Aguardando"),
+    ACEITO(2, "Aceito"),
+    EM_PREPARO(3, "Em preparo"),
+    SAIU_PARA_ENTREGA(4, "Saiu para entrega"),
+    ENTREGUE(5, "Entregue"),
+    CANCELADO(6, "Cancelado");
 
     private final int ordem;
     private final String descricao;

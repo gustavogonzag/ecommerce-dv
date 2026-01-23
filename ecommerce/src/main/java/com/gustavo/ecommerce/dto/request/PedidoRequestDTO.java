@@ -1,17 +1,26 @@
 package com.gustavo.ecommerce.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public class PedidoRequestDTO {
 
+    @NotBlank
     private String nomeCliente;
+
+    @NotBlank
     private String telefone;
+
+    @NotBlank
     private String endereco;
-    private Long bairroId;
 
+    @NotNull
+    private Integer bairroId;
+
+    @NotNull
     private List<ItemPedidoRequestDTO> itens;
-
-    private String codigoCupom; // opcional
 
     public String getNomeCliente() {
         return nomeCliente;
@@ -37,11 +46,11 @@ public class PedidoRequestDTO {
         this.endereco = endereco;
     }
 
-    public Long getBairroId() {
+    public Integer getBairroId() {
         return bairroId;
     }
 
-    public void setBairroId(Long bairroId) {
+    public void setBairroId(Integer bairroId) {
         this.bairroId = bairroId;
     }
 
@@ -51,13 +60,5 @@ public class PedidoRequestDTO {
 
     public void setItens(List<ItemPedidoRequestDTO> itens) {
         this.itens = itens;
-    }
-
-    public String getCodigoCupom() {
-        return codigoCupom;
-    }
-
-    public void setCodigoCupom(String codigoCupom) {
-        this.codigoCupom = codigoCupom;
     }
 }

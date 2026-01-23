@@ -1,6 +1,7 @@
 package com.gustavo.ecommerce.controller;
 
 import com.gustavo.ecommerce.dto.request.ProdutoRequestDTO;
+import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,12 @@ public class ProdutoController {
     @GetMapping
     public ResponseEntity<List<ProdutoRequestDTO>> findAll(){
         return ResponseEntity.ok(produtoService.listar());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoRequestDTO> findById(@PathVariable Integer id){
+        ProdutoRequestDTO produto = produtoService.buscarProdutoPorId(id);
+        return ResponseEntity.ok(produto);
     }
 
     @DeleteMapping("{id}")

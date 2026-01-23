@@ -1,15 +1,21 @@
 package com.gustavo.ecommerce.dto.request;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 public class ItemPedidoRequestDTO {
 
-    private int produtoId;
+    @NotNull
+    private Integer produtoId;
+
+    @Positive
     private Integer quantidade;
 
-    public int getProdutoId() {
+    public Integer getProdutoId() {
         return produtoId;
     }
 
-    public void setProdutoId(int produtoId) {
+    public void setProdutoId(Integer produtoId) {
         this.produtoId = produtoId;
     }
 

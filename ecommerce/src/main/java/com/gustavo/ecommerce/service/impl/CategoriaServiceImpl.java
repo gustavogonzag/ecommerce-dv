@@ -1,7 +1,9 @@
 package com.gustavo.ecommerce.service.impl;
 
 import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
+import com.gustavo.ecommerce.dto.request.ProdutoRequestDTO;
 import com.gustavo.ecommerce.entity.Categoria;
+import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.repository.CategoriaRepository;
 import com.gustavo.ecommerce.service.CategoriaService;
 import org.springframework.stereotype.Service;
@@ -67,5 +69,17 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public void apagarCategoria(Integer id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public CategoriaRequestDTO buscarCategoriaPorId(Integer id) {
+        Categoria categoria = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        CategoriaRequestDTO dto = new CategoriaRequestDTO();
+        dto.setId(categoria.getId());
+        dto.setNome(categoria.getNome());
+
+        return dto;
     }
 }

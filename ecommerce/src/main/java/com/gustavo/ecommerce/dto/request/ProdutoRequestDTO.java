@@ -19,7 +19,7 @@ public class ProdutoRequestDTO {
     @NotNull
     private Integer categoriaId;
 
-    private boolean ativo;
+    private Boolean ativo;
 
     public ProdutoRequestDTO() {
     }
@@ -64,11 +64,11 @@ public class ProdutoRequestDTO {
         this.categoriaId = categoriaId;
     }
 
-    public boolean isAtivo() {
+    public Boolean isAtivo() {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
 }

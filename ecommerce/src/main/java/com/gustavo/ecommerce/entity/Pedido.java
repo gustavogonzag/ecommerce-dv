@@ -13,7 +13,7 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     // Dados do cliente
     private String nomeCliente;
@@ -37,11 +37,11 @@ public class Pedido {
 
     private LocalDateTime dataCriacao;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

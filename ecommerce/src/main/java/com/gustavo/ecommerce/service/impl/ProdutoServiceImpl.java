@@ -6,6 +6,7 @@ import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.repository.CategoriaRepository;
 import com.gustavo.ecommerce.repository.ProdutoRepository;
 import com.gustavo.ecommerce.service.ProdutoService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -72,6 +73,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ProdutoRequestDTO> listar() {
         return produtoRepository.findAll()
@@ -87,6 +89,24 @@ public class ProdutoServiceImpl implements ProdutoService {
                     return res;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ProdutoRequestDTO buscarProdutoPorId(Integer id) {
+
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+
+        ProdutoRequestDTO dto = new ProdutoRequestDTO();
+        dto.setId(produto.getId());
+        dto.setNome(produto.getNome());
+        dto.setDescricao(produto.getDescricao());
+        dto.setPreco(produto.getPreco());
+        dto.setAtivo(produto.getAtivo());
+        dto.setCategoriaId(produto.getCategoria().getId());
+
+        return dto;
     }
 
     @Override

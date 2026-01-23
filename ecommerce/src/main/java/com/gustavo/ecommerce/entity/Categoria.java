@@ -1,10 +1,11 @@
 package com.gustavo.ecommerce.entity;
 
+import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "categorias")
-public class Categoria {
+public class Categoria extends CategoriaRequestDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,7 @@ public class Categoria {
         this.nome = nome;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

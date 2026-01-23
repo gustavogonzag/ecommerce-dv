@@ -46,4 +46,10 @@ public class CategoriaController {
         return ResponseEntity.ok().body("Removed!");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoriaRequestDTO> buscarCategoriaPorId(@PathVariable Integer id) {
+        CategoriaRequestDTO categoria = service.buscarCategoriaPorId(id);
+        return ResponseEntity.ok(categoria);
+    }
+
 }

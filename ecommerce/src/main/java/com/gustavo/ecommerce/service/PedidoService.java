@@ -9,8 +9,8 @@ import java.util.List;
 public interface PedidoService {
 
     Pedido criarPedido(PedidoRequestDTO dto);
-    Pedido atualizarStatusPedido(Integer id, StatusPedido novoStatus); //Falta concluir
+    Pedido atualizarStatusPedido(Integer id, StatusPedido novoStatus);
     List<Pedido> listarPedidos();
-    List<Pedido> listarPedidosByStatus(String status); // Falta Concluir
+    List<Pedido> findByStatusOrderByDataCriacaoDesc(StatusPedido status);
     Pedido buscarPedidoPorId(Integer id);
 }

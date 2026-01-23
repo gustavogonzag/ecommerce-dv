@@ -3,6 +3,7 @@ package com.gustavo.ecommerce.controller;
 import com.gustavo.ecommerce.dto.request.AtualizarStatusPedidoDTO;
 import com.gustavo.ecommerce.dto.request.PedidoRequestDTO;
 import com.gustavo.ecommerce.entity.Pedido;
+import com.gustavo.ecommerce.entity.enums.StatusPedido;
 import com.gustavo.ecommerce.service.PedidoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,13 @@ public class PedidoController {
         Pedido pedidoAtualizado = pedidoService.atualizarStatusPedido(id, dto.getStatusPedido());
 
         return ResponseEntity.ok(pedidoAtualizado);
+    }
+
+    @GetMapping("/status")
+    public ResponseEntity<List<Pedido>> buscarPorStatus(
+            @RequestParam StatusPedido status
+    ) {
+        return ResponseEntity.ok(pedidoService.findByStatusOrderByDataCriacaoDesc(status));
     }
 
 }

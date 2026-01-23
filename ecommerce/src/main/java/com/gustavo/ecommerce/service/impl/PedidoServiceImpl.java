@@ -118,8 +118,8 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<Pedido> listarPedidosByStatus(String status) {
-        return List.of();
+    public List<Pedido> findByStatusOrderByDataCriacaoDesc(StatusPedido status) {
+        return pedidoRepository.findByStatusOrderByDataCriacaoDesc(status);
     }
 
     @Override

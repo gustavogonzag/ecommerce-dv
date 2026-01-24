@@ -1,7 +1,10 @@
 package com.gustavo.ecommerce.exception;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class ApiError {
 
     private LocalDateTime timestamp;
@@ -18,23 +21,4 @@ public class ApiError {
         this.path = path;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getPath() {
-        return path;
-    }
 }

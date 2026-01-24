@@ -9,6 +9,7 @@ import com.gustavo.ecommerce.entity.ItemPedido;
 import com.gustavo.ecommerce.entity.Pedido;
 import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.entity.enums.StatusPedido;
+import com.gustavo.ecommerce.exception.ResourceNotFoundException;
 import com.gustavo.ecommerce.mapper.PedidoMapper;
 import com.gustavo.ecommerce.repository.BairroRepository;
 import com.gustavo.ecommerce.repository.PedidoRepository;
@@ -45,23 +46,27 @@ public class PedidoServiceImpl implements PedidoService {
     private PedidoMapper pedidoMapper;
 
     @Override
+    @Transactional
     public Pedido criarPedido(PedidoRequestDTO dto) {
+
+        if (dto.getItens() == null || dto.getItens().isEmpty()) {
+            throw new IllegalArgumentException("Pedido deve conter ao menos um item");
+        }
 
         Pedido pedido = new Pedido();
 
-        // Dados do cliente
         pedido.setNomeCliente(dto.getNomeCliente());
         pedido.setTelefone(dto.getTelefone());
         pedido.setEndereco(dto.getEndereco());
 
-        // Bairro
         Bairro bairro = bairroRepository.findById(dto.getBairroId())
-                .orElseThrow(() -> new RuntimeException("Bairro não encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Bairro não encontrado")
+                );
 
         pedido.setBairro(bairro);
         pedido.setTaxaEntrega(bairro.getTaxaEntrega());
 
-        // Status inicial
         pedido.setStatus(StatusPedido.AGUARDANDO);
         pedido.setDataHora(LocalDateTime.now());
         pedido.setFormaPagamento(dto.getFormaPagamento());
@@ -69,11 +74,14 @@ public class PedidoServiceImpl implements PedidoService {
         BigDecimal subtotalPedido = BigDecimal.ZERO;
         List<ItemPedido> itens = new ArrayList<>();
 
-        // Itens do pedido
         for (ItemPedidoRequestDTO itemDTO : dto.getItens()) {
 
             Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
-                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                    .orElseThrow(() ->
+                            new ResourceNotFoundException(
+                                    "Produto não encontrado (id=" + itemDTO.getProdutoId() + ")"
+                            )
+                    );
 
             ItemPedido item = new ItemPedido();
             item.setPedido(pedido);
@@ -98,9 +106,13 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    @Transactional
     public Pedido atualizarStatusPedido(Integer id, StatusPedido novoStatus) {
+
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Pedido não encontrado")
+                );
 
         pedido.setStatus(novoStatus);
 
@@ -108,18 +120,23 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Pedido buscarPedidoPorId(Integer id) {
 
         return pedidoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Pedido não encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Pedido não encontrado")
+                );
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Pedido> listarComFiltros(
             StatusPedido status,
             LocalDate dataInicio,
             LocalDate dataFim,
-            Pageable pageable) {
+            Pageable pageable
+    ) {
 
         return pedidoRepository.findAll(
                 Specification
@@ -131,12 +148,15 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Page<Pedido> listarUltimosPedidos(Pageable pageable) {
         return pedidoRepository.findAllByOrderByDataCriacaoDesc(pageable);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Pedido> listarPedidosAtrasados(int minutos) {
+
         LocalDateTime limite = LocalDateTime.now().minusMinutes(minutos);
         return pedidoRepository.findPedidosAtrasados(limite);
     }
@@ -160,5 +180,4 @@ public class PedidoServiceImpl implements PedidoService {
 
         return pedidoMapper.toPageResponse(page);
     }
-
 }

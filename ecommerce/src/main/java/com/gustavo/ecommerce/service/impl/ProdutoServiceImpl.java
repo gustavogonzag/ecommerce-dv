@@ -3,11 +3,12 @@ package com.gustavo.ecommerce.service.impl;
 import com.gustavo.ecommerce.dto.request.ProdutoRequestDTO;
 import com.gustavo.ecommerce.entity.Categoria;
 import com.gustavo.ecommerce.entity.Produto;
+import com.gustavo.ecommerce.exception.ResourceNotFoundException;
 import com.gustavo.ecommerce.repository.CategoriaRepository;
 import com.gustavo.ecommerce.repository.ProdutoRepository;
 import com.gustavo.ecommerce.service.ProdutoService;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,8 +19,10 @@ public class ProdutoServiceImpl implements ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final CategoriaRepository categoriaRepository;
 
-    public ProdutoServiceImpl(ProdutoRepository produtoRepository,
-                              CategoriaRepository categoriaRepository) {
+    public ProdutoServiceImpl(
+            ProdutoRepository produtoRepository,
+            CategoriaRepository categoriaRepository
+    ) {
         this.produtoRepository = produtoRepository;
         this.categoriaRepository = categoriaRepository;
     }
@@ -28,7 +31,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     public ProdutoRequestDTO criar(ProdutoRequestDTO dto) {
 
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Categoria não encontrada")
+                );
 
         Produto produto = new Produto();
         produto.setNome(dto.getNome());
@@ -54,7 +59,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     public ProdutoRequestDTO atualizarProduto(ProdutoRequestDTO dto) {
 
         Produto produto = produtoRepository.findById(dto.getId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Produto não encontrado")
+                );
 
         produto.setNome(dto.getNome());
         produto.setDescricao(dto.getDescricao());
@@ -68,7 +75,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         response.setNome(atualizado.getNome());
         response.setDescricao(atualizado.getDescricao());
         response.setPreco(atualizado.getPreco());
-        response.setAtivo(dto.isAtivo());
+        response.setAtivo(atualizado.getAtivo());
+        response.setCategoriaId(atualizado.getCategoria().getId());
 
         return response;
     }
@@ -76,6 +84,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Transactional(readOnly = true)
     @Override
     public List<ProdutoRequestDTO> listar() {
+
         return produtoRepository.findAll()
                 .stream()
                 .map(produto -> {
@@ -96,7 +105,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     public ProdutoRequestDTO buscarProdutoPorId(Integer id) {
 
         Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Produto não encontrado")
+                );
 
         ProdutoRequestDTO dto = new ProdutoRequestDTO();
         dto.setId(produto.getId());
@@ -110,5 +121,12 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public void apagarProduto(Integer id){ produtoRepository.deleteById(id); }
+    public void apagarProduto(Integer id) {
+
+        if (!produtoRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Produto não encontrado");
+        }
+
+        produtoRepository.deleteById(id);
+    }
 }

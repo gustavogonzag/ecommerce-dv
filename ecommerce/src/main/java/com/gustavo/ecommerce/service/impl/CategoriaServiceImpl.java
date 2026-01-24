@@ -2,6 +2,7 @@ package com.gustavo.ecommerce.service.impl;
 
 import com.gustavo.ecommerce.dto.request.CategoriaRequestDTO;
 import com.gustavo.ecommerce.entity.Categoria;
+import com.gustavo.ecommerce.exception.ResourceNotFoundException;
 import com.gustavo.ecommerce.repository.CategoriaRepository;
 import com.gustavo.ecommerce.service.CategoriaService;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaRequestDTO atualizarCategoria(CategoriaRequestDTO dto) {
 
         Categoria categoria = repository.findById(dto.getId())
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Categoria não encontrada")
+                );
 
         categoria.setNome(dto.getNome());
 
@@ -66,6 +69,11 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public void apagarCategoria(Integer id) {
+
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException("Categoria não encontrada");
+        }
+
         repository.deleteById(id);
     }
 
@@ -73,7 +81,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     public CategoriaRequestDTO buscarCategoriaPorId(Integer id) {
 
         Categoria categoria = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Categoria não encontrada")
+                );
 
         CategoriaRequestDTO dto = new CategoriaRequestDTO();
         dto.setId(categoria.getId());
@@ -82,4 +92,3 @@ public class CategoriaServiceImpl implements CategoriaService {
         return dto;
     }
 }
-

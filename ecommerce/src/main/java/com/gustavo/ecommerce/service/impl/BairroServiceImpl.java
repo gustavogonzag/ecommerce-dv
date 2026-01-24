@@ -2,6 +2,7 @@ package com.gustavo.ecommerce.service.impl;
 
 import com.gustavo.ecommerce.dto.request.BairroRequestDTO;
 import com.gustavo.ecommerce.entity.Bairro;
+import com.gustavo.ecommerce.exception.ResourceNotFoundException;
 import com.gustavo.ecommerce.repository.BairroRepository;
 import com.gustavo.ecommerce.service.BairroService;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,11 @@ public class BairroServiceImpl implements BairroService {
 
     @Override
     public BairroRequestDTO atualizarBairro(BairroRequestDTO dto) {
+
         Bairro bairroExistente = bairroRepository.findById(dto.getId())
-                        .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Bairro não encontrado")
+                );
 
         bairroExistente.setNome(dto.getNome());
         bairroExistente.setTaxaEntrega(dto.getTaxaEntrega());
@@ -55,17 +59,26 @@ public class BairroServiceImpl implements BairroService {
 
     @Override
     public List<BairroRequestDTO> listarBairros() {
+
         return bairroRepository.findAll()
                 .stream()
-                .map( bairro -> {
+                .map(bairro -> {
                     BairroRequestDTO res = new BairroRequestDTO();
                     res.setId(bairro.getId());
                     res.setNome(bairro.getNome());
                     res.setTaxaEntrega(bairro.getTaxaEntrega());
                     return res;
-                }).collect(Collectors.toList());
+                })
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void apagarBairro(Integer id) { bairroRepository.deleteById(id); }
+    public void apagarBairro(Integer id) {
+
+        if (!bairroRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Bairro não encontrado");
+        }
+
+        bairroRepository.deleteById(id);
+    }
 }

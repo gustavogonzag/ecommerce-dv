@@ -9,6 +9,7 @@ import com.gustavo.ecommerce.entity.ItemPedido;
 import com.gustavo.ecommerce.entity.Pedido;
 import com.gustavo.ecommerce.entity.Produto;
 import com.gustavo.ecommerce.entity.enums.StatusPedido;
+import com.gustavo.ecommerce.exception.BusinessException;
 import com.gustavo.ecommerce.exception.ResourceNotFoundException;
 import com.gustavo.ecommerce.mapper.PedidoMapper;
 import com.gustavo.ecommerce.repository.BairroRepository;
@@ -110,9 +111,15 @@ public class PedidoServiceImpl implements PedidoService {
     public Pedido atualizarStatusPedido(Integer id, StatusPedido novoStatus) {
 
         Pedido pedido = pedidoRepository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Pedido não encontrado")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException("Pedido não encontrado"));
+
+        if (pedido.getStatus() == StatusPedido.ENTREGUE) {
+            throw new BusinessException("Pedido já foi entregue e não pode ser alterado");
+        }
+
+        if (pedido.getStatus() == StatusPedido.CANCELADO) {
+            throw new BusinessException("Pedido cancelado não pode mudar de status");
+        }
 
         pedido.setStatus(novoStatus);
 

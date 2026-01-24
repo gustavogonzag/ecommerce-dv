@@ -22,6 +22,7 @@ public class PedidoResponseDTO {
     private String bairroNome;
 
     private StatusPedido status;
+    private boolean atrasado;
     private FormaPagamento formaPagamento;
 
     private BigDecimal subtotalProdutos;

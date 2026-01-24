@@ -5,6 +5,7 @@ import com.gustavo.ecommerce.dto.response.PageResponseDTO;
 import com.gustavo.ecommerce.dto.response.PedidoResponseDTO;
 import com.gustavo.ecommerce.entity.ItemPedido;
 import com.gustavo.ecommerce.entity.Pedido;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,10 @@ import java.util.List;
 
 @Component
 public class PedidoMapper {
+
+    @Autowired
+    private com.gustavo.ecommerce.Business.PedidoAtrasoService pedidoAtrasoService;
+
 
     public PedidoResponseDTO toResponseDTO(Pedido pedido) {
 
@@ -21,10 +26,8 @@ public class PedidoMapper {
         dto.setTelefone(pedido.getTelefone());
         dto.setEndereco(pedido.getEndereco());
 
-        dto.setBairroId(pedido.getBairro().getId());
-        dto.setBairroNome(pedido.getBairro().getNome());
-
         dto.setStatus(pedido.getStatus());
+        dto.setAtrasado(pedidoAtrasoService.isPedidoAtrasado(pedido));
         dto.setFormaPagamento(pedido.getFormaPagamento());
 
         dto.setSubtotalProdutos(pedido.getSubtotal());
@@ -32,6 +35,11 @@ public class PedidoMapper {
         dto.setTotal(pedido.getTotal());
 
         dto.setDataCriacao(pedido.getDataCriacao());
+
+        if (pedido.getBairro() != null) {
+            dto.setBairroId(pedido.getBairro().getId());
+            dto.setBairroNome(pedido.getBairro().getNome());
+        }
 
         List<ItemPedidoResponseDTO> itens = pedido.getItens()
                 .stream()
